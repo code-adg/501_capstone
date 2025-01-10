@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/code-adg/501_capstone/issues"
   },
-  "homepage": "https://github.com/code-adg/501_capstone#readme"
+  "homepage": "https://github.com/code-adg/501_capstone#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1"
+  }
 }
