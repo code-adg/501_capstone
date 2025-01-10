@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Player Dashboard</title>
+    <!-- <link rel="stylesheet" href="/styles.css" /> -->
+     <style>
+      /* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background: #f7f8fa;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header */
+header {
+  background: #004d61;
+  color: #fff;
+  padding: 1.5rem 2rem;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* Dashboard */
+.dashboard {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+/* Logout Section */
+.logout {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.logout a {
+  color: #004d61;
+  text-decoration: none;
+  font-weight: bold;
+  border: 1px solid #004d61;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.logout a:hover {
+  background: #004d61;
+  color: #fff;
+}
+
+/* Session Lists */
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #333;
+  border-bottom: 2px solid #00a8cc;
+  display: inline-block;
+}
+
+ul {
+  list-style: none;
+  margin: 1rem 0;
+  padding: 0;
+}
+
+ul li {
+  background: #f9f9f9;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+ul li ul {
+  margin-top: 0.5rem;
+}
+
+ul li ul li {
+  background: transparent;
+  border: none;
+  margin: 0.2rem 0;
+}
+
+/* Forms */
+form {
+  margin-top: 1rem;
+}
+
+form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+form input,
+form select,
+form textarea {
+  width: calc(100% - 2rem);
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+form button {
+  background: #004d61;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+form button:hover {
+  background: #00789c;
+}
+
+/* Cancelled Sessions */
+.cancelled {
+  margin-top: 0.5rem;
+  padding: 0.8rem;
+  background: #ffe6e6;
+  color: #cc0000;
+  border: 1px solid #cc0000;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .logout {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  ul li {
+    padding: 1rem 0.8rem;
+  }
+
+  form input,
+  form select {
+    width: calc(100% - 1.6rem);
+  }
+
+  header h1 {
+    font-size: 1.8rem;
+  }
+}
+
+     </style>
+  </head>
+  <body id="player-dashboard">
+    <header>
+      <h1>Welcome, <%= user.name %></h1>
+    </header>
+    <div class="container">
+      <div class="dashboard">
+        <div class="logout">
+          <a href="/logout">Logout</a>
+          <a href="/change-password">Change Password</a>
+        </div>
+
+        <h2>Joined Sessions</h2>
+        <ul>
+          <% joinedSessions.forEach(session => { %>
+          <li>
+            Sport: <%= session.sport_name %>, Teams: <%= session.team1 %> vs <%=
+            session.team2 %>, Date: <%= session.date %>, Venue: <%=
+            session.venue %>
+            <br />Players:
+            <ul>
+              <% session.players.forEach(player => { %>
+              <li>
+                <%= player.name %> <% if (player.id === user.id) { %>(You)<% }
+                %>
+              </li>
+              <% }) %>
+            </ul>
+            <% if (session.cancelled) { %>
+            <div class="cancelled">
+              Cancelled: <%= session.cancellation_reason %>
+            </div>
+            <% } %> <% if (session.creator_id === user.id) { %>
+            <form action="/cancel-session" method="POST">
+              <input
+                type="hidden"
+                name="session_id"
+                value="<%= session.id %>"
+              />
+              <input
+                type="text"
+                name="reason"
+                placeholder="Reason for cancellation"
+                required
+              />
+              <button type="submit">Cancel Session</button>
+            </form>
+            <% } else { %> (Created by you) <% } %>
+          </li>
+          <% }) %>
+        </ul>
+
+        <h2>Available Sessions</h2>
+        <ul>
+          <% sessions.forEach(session => { %>
+          <li>
+            Sport: <%= session.sport_name %>, Teams: <%= session.team1 %> vs <%=
+            session.team2 %>, Date: <%= session.date %>, Venue: <%=
+            session.venue %>
+            <br />Players:
+            <ul>
+              <% session.players.forEach(player => { %>
+              <li>
+                <%= player.name %> <% if (player.id === user.id) { %>(You)<% }
+                %>
+              </li>
+              <% }) %>
+            </ul>
+            <% if (session.creator_id !== user.id && !session.cancelled) { %>
+            <form action="/join-session" method="POST">
+              <input
+                type="hidden"
+                name="session_id"
+                value="<%= session.id %>"
+              />
+              <button type="submit">Join</button>
+            </form>
+            <% } else { %> (Created by you) <% } %> <% if (session.cancelled) {
+            %>
+            <div class="cancelled">
+              Cancelled: <%= session.cancellation_reason %>
+            </div>
+            <% } %>
+          </li>
+          <% }) %>
+        </ul>
+
+        <h2>Create Session</h2>
+        <form action="/create-session" method="POST">
+          <label for="sport_id">Sport:</label>
+          <select name="sport_id" id="sport_id" required>
+            <% sports.forEach(sport => { %>
+            <option value="<%= sport.id %>"><%= sport.name %></option>
+            <% }) %>
+          </select>
+          <label for="team1">Team 1:</label>
+          <input type="text" name="team1" id="team1" required />
+          <label for="team2">Team 2:</label>
+          <input type="text" name="team2" id="team2" required />
+          <label for="additional_players">Additional Players:</label>
+          <input
+            type="number"
+            name="additional_players"
+            id="additional_players"
+            required
+          />
+          <label for="date">Date:</label>
+          <input type="datetime-local" name="date" id="date" required />
+          <label for="venue">Venue:</label>
+          <input type="text" name="venue" id="venue" required />
+          <button type="submit">Create Session</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
