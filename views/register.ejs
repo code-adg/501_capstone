@@ -2,10 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <style>
-        /* General Reset */
+    <title>Register</title>
+    <!-- <link rel="stylesheet" href="/styles.css" /> -->
+     <style>
+      /* General Reset */
 * {
   margin: 0;
   padding: 0;
@@ -51,7 +51,8 @@ label {
   color: #444;
 }
 
-input {
+input,
+select {
   width: 100%;
   padding: 0.8rem;
   font-size: 1rem;
@@ -61,7 +62,8 @@ input {
   transition: border-color 0.3s;
 }
 
-input:focus {
+input:focus,
+select:focus {
   border-color: #6a11cb;
   outline: none;
 }
@@ -112,24 +114,25 @@ p a:hover {
   }
 }
 
-    </style>
+     </style>
   </head>
-  <body id="login-page">
+  <body id="register-page">
     <div class="container">
-      <form action="/login" method="POST">
-        <h1>Login</h1>
+      <form action="/register" method="POST">
+        <h1>Register</h1>
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" required />
         <label for="email">Email:</label>
-        <input type="email" name="email" id="email" placeholder="Enter your email" required />
+        <input type="email" name="email" id="email" required />
         <label for="password">Password:</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Enter your password"
-          required
-        />
-        <button type="submit">Login</button>
-        <p>Don't have an account? <a href="/register">Register</a></p>
+        <input type="password" name="password" id="password" required />
+        <label for="role">Role:</label>
+        <select name="role" id="role">
+          <option value="player">Player</option>
+          <option value="admin">Admin</option>
+        </select>
+        <button type="submit">Register</button>
+        <p>Already have an account? <a href="/login">Login</a></p>
       </form>
     </div>
   </body>
