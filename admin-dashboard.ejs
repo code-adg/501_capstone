@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard</title>
+    <!-- <link rel="stylesheet" href="/styles.css" /> -->
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9;
+        color: #333;
+      }
+      header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 1rem 2rem;
+        text-align: center;
+      }
+      header h1 {
+        margin: 0;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 1rem;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .dashboard {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+      .logout {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+      .logout a {
+        text-decoration: none;
+        color: #007bff;
+        font-weight: bold;
+      }
+      .logout a:hover {
+        text-decoration: underline;
+      }
+      .content {
+        display: flex;
+        justify-content: space-between;
+        gap: 2rem;
+      }
+      section div {
+        flex: 1;
+      }
+      h2 {
+        color: #007bff;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      ul li {
+        margin: 0.5rem 0;
+        padding: 0.5rem;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .cancelled {
+        color: #e74c3c;
+        font-weight: bold;
+      }
+      form {
+        margin-top: 1rem;
+      }
+      form label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+      }
+      form input,
+      form select,
+      form button {
+        width: 100%;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      form button {
+        background-color: #007bff;
+        color: #fff;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+      }
+      form button:hover {
+        background-color: #0056b3;
+      }
+      .report-link {
+        display: inline-block;
+        margin-top: 2rem;
+        text-decoration: none;
+        color: #fff;
+        background-color: #28a745;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        font-weight: bold;
+        text-align: center;
+      }
+      .report-link:hover {
+        background-color: #218838;
+      }
+    </style>
+  </head>
+  <body id="admin-dashboard">
+    <header>
+      <h1>Welcome, <%= user.name %></h1>
+    </header>
+    <div class="container dashboard">
+      <div class="logout">
+        <a href="/logout">Logout</a>
+        <a href="/change-password">Change Password</a>
+      </div>
+      <section class="content">
+        <div>
+          <h2>Sports</h2>
+          <ul>
+            <% sports.forEach(sport => { %>
+            <li><%= sport.name %></li>
+            <% }) %>
+          </ul>
+          <h2>Create Sport</h2>
+          <form action="/create-sport" method="POST">
+            <label for="name">Sport Name:</label>
+            <input type="text" name="name" id="name" required />
+            <button type="submit">Create Sport</button>
+          </form>
+        </div>
+        <div>
+          <h2>All Sessions</h2>
+          <ul>
+            <% sessions.forEach(session => { %>
+            <li>
+              <strong>Sport:</strong> <%= session.sport_name %>, <strong>Teams:</strong>
+              <%= session.team1 %> vs <%= session.team2 %>, <strong>Date:</strong>
+              <%= session.date %>, <strong>Venue:</strong> <%= session.venue %>
+              <br /><strong>Created by:</strong> <%= session.creator_name %>
+              <br /><strong>Players:</strong>
+              <ul>
+                <% session.players.forEach(player => { %>
+                <li><%= player.name %></li>
+                <% }) %>
+              </ul>
+              <% if (session.cancelled) { %>
+              <div class="cancelled">
+                Cancelled: <%= session.cancellation_reason %>
+              </div>
+              <% } %>
+              <form action="/delete-session" method="POST">
+                <input
+                  type="hidden"
+                  name="session_id"
+                  value="<%= session.id %>"
+                />
+                <button type="submit">Delete</button>
+              </form>
+              <form action="/join-session" method="POST">
+                <input
+                  type="hidden"
+                  name="session_id"
+                  value="<%= session.id %>"
+                />
+                <button type="submit">Join</button>
+              </form>
+            </li>
+            <% }) %>
+          </ul>
+        </div>
+      </section>
+
+      <h2>Create Session</h2>
+      <form action="/create-session" method="POST">
+        <label for="sport_id">Sport:</label>
+        <select name="sport_id" id="sport_id" required>
+          <% sports.forEach(sport => { %>
+          <option value="<%= sport.id %>"><%= sport.name %></option>
+          <% }) %>
+        </select>
+        <label for="team1">Team 1:</label>
+        <input type="text" name="team1" id="team1" required />
+        <label for="team2">Team 2:</label>
+        <input type="text" name="team2" id="team2" required />
+        <label for="additional_players">Additional Players:</label>
+        <input
+          type="number"
+          name="additional_players"
+          id="additional_players"
+          required
+        />
+        <label for="date">Date:</label>
+        <input type="datetime-local" name="date" id="date" required />
+        <label for="venue">Venue:</label>
+        <input type="text" name="venue" id="venue" required />
+        <button type="submit">Create Session</button>
+      </form>
+
+      <a href="/reports" class="report-link">View Reports</a>
+    </div>
+  </body>
+</html>
