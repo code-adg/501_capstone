@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sports Management</title>
+    <style>
+      /* General Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        background: #f9f9f9;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      /* Navbar */
+      .navbar {
+        background: #004d61;
+        color: #fff;
+        padding: 1rem 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+      }
+
+      .navbar ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+
+      .navbar ul li a:hover {
+        background: #008394;
+        color: #fff;
+        border-radius: 5px;
+      }
+
+      /* Header Section */
+      .header {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: linear-gradient(135deg, #004d61, #00a8cc);
+        color: #fff;
+      }
+
+      .header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      /* Features Section */
+      .features {
+        padding: 3rem 1rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+      }
+
+      .feature {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .feature:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .feature h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #004d61;
+      }
+
+      .feature p {
+        font-size: 1rem;
+        color: #666;
+      }
+
+      /* Feedback Section */
+      .feedback {
+        background: #f4f7f8;
+        padding: 3rem 1rem;
+        border-top: 3px solid #00a8cc;
+      }
+
+      .feedback h2 {
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: #004d61;
+      }
+
+      .feedback-form {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .feedback-form label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .feedback-form input,
+      .feedback-form textarea {
+        width: 100%;
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+      }
+
+      .feedback-form textarea {
+        min-height: 120px;
+      }
+
+      .feedback-form button {
+        background: #004d61;
+        color: #fff;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .feedback-form button:hover {
+        background: #00789c;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 2rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .feedback-form {
+          padding: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <ul>
+        <li><a href="/register">Register</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/about-us">About Us</a></li>
+      </ul>
+    </nav>
+
+    <header class="header">
+      <h1>Welcome to Sports Management</h1>
+      <p>Streamline your sports activities with our innovative platform.</p>
+    </header>
+
+    <section class="features">
+      <div class="feature">
+        <h2>Team Management</h2>
+        <p>Organize and oversee teams effortlessly with advanced tools.</p>
+      </div>
+      <div class="feature">
+        <h2>Schedule Management</h2>
+        <p>Keep track of events and sessions with an intuitive scheduler.</p>
+      </div>
+      <div class="feature">
+        <h2>Player Registration</h2>
+        <p>Register and manage players for seamless participation.</p>
+      </div>
+      <div class="feature">
+        <h2>Statistics & Reports</h2>
+        <p>Analyze data and trends to make informed decisions.</p>
+      </div>
+    </section>
+
+    <section class="feedback">
+      <h2>We Value Your Feedback</h2>
+      <div class="feedback-form">
+        <form action="/submit-feedback" method="POST">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required />
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+          <label for="message">Message</label>
+          <textarea id="message" name="message" required></textarea>
+          <button type="submit">Submit Feedback</button>
+        </form>
+      </div>
+    </section>
+  </body>
+</html>
