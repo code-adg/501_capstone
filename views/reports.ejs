@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Reports</title>
+    <!-- <link rel="stylesheet" href="/styles.css" /> -->
+
+      <style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+  }
+
+  header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 1rem 2rem;
+    text-align: center;
+  }
+
+  header h1 {
+    margin: 0;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  h2 {
+    color: #007bff;
+    margin-bottom: 1rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+  }
+
+  table th,
+  table td {
+    padding: 1rem;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+
+  table th {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  table tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  .cancelled {
+    color: #e74c3c;
+    font-weight: bold;
+  }
+
+  .report-link {
+    display: inline-block;
+    margin-top: 2rem;
+    text-decoration: none;
+    color: #fff;
+    background-color: #28a745;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .report-link:hover {
+    background-color: #218838;
+  }
+</style>
+  </head>
+  <body id="reports-page">
+    <header>
+      <h1>Reports</h1>
+    </header>
+    <div class="container">
+      <h2>Session Details</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Sport</th>
+            <th>Teams</th>
+            <th>Date</th>
+            <th>Venue</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% sessions.forEach(session => { %>
+          <tr>
+            <td><%= session.sport_name %></td>
+            <td><%= session.team1 %> vs <%= session.team2 %></td>
+            <td><%= session.date %></td>
+            <td><%= session.venue %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <h2>Sport Popularity</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Sport</th>
+            <th>Number of Sessions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% popularity.forEach(sport => { %>
+          <tr>
+            <td><%= sport.name %></td>
+            <td><%= sport.count %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
