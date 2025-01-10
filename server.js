@@ -1,7 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const bcrypt = require("bcryptjs");
-const pool = require("./database");
+const pool = require("./dbConnection");
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
